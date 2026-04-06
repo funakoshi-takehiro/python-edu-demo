@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🐍 Pythonノートブック - 高校生向け</title>
+
+  <!-- CodeMirror 5 (コードエディタ) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+
+  <!-- Google Fonts (日本語対応フォント) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===== 読み込み画面 ===== -->
+  <div id="loading-overlay">
+    <div class="loading-box">
+      <div class="loading-logo">🐍</div>
+      <h2>Python環境を準備しています</h2>
+      <div class="loading-bar-outer">
+        <div class="loading-bar-inner" id="loading-bar"></div>
+      </div>
+      <p id="loading-status">起動中...</p>
+      <p class="loading-note">初回は少し時間がかかります（30秒〜1分程度）</p>
+    </div>
+  </div>
+
+  <!-- ===== ヘッダー ===== -->
+  <header id="app-header">
+    <div class="header-left">
+      <span class="header-logo">🐍</span>
+      <div class="header-title-group">
+        <h1>Pythonノートブック</h1>
+        <span class="header-subtitle">高校生向けプログラミング環境</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="btn-header btn-run-all" onclick="runAllCells()" title="すべてのコードセルを順番に実行します">
+        ▶▶ すべて実行
+      </button>
+      <button class="btn-header btn-clear" onclick="clearAllOutputs()" title="すべての実行結果を消去します">
+        🗑 出力をクリア
+      </button>
+      <div class="header-help" title="ヘルプ" onclick="toggleHelp()">？</div>
+    </div>
+  </header>
+
+  <!-- ===== ヘルプパネル ===== -->
+  <div id="help-panel" class="hidden">
+    <div class="help-content">
+      <button class="help-close" onclick="toggleHelp()">✕ 閉じる</button>
+      <h3>📖 使い方ガイド</h3>
+      <table class="help-table">
+        <tr><th>操作</th><th>方法</th></tr>
+        <tr><td>コードを実行</td><td>▶ 実行 ボタン　または　<kbd>Shift</kbd>+<kbd>Enter</kbd></td></tr>
+        <tr><td>新しいセルを追加</td><td>セル下の ＋ ボタン、または画面下のボタン</td></tr>
+        <tr><td>セルを削除</td><td>セル右上の ✕ ボタン</td></tr>
+        <tr><td>セルの順番を変える</td><td>↑ ↓ ボタン</td></tr>
+        <tr><td>テキストを確定</td><td><kbd>Shift</kbd>+<kbd>Enter</kbd>　または　<kbd>Esc</kbd></td></tr>
+        <tr><td>インデント（字下げ）</td><td><kbd>Tab</kbd> キー（スペース4つ分）</td></tr>
+      </table>
+      <h3 style="margin-top:16px;">📚 使えるライブラリ</h3>
+      <p>import 文を書くと自動で読み込みます：</p>
+      <code>numpy, pandas, matplotlib, scikit-learn, Pillow, random, math, ...</code>
+      <h3 style="margin-top:16px;">💡 ポイント</h3>
+      <ul>
+        <li>上のセルで作った変数は、下のセルでも使えます</li>
+        <li>グラフはセルの下に自動で表示されます</li>
+        <li>エラーが出たら日本語の説明を参考に直しましょう</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== ノートブック本体 ===== -->
+  <main id="main-content">
+    <div id="notebook-container"></div>
+
+    <!-- セル追加ボタン（画面下） -->
+    <div id="bottom-add-bar">
+      <button class="btn-add-bottom" onclick="appendCell('code')">
+        ＋ コードセルを追加
+      </button>
+      <button class="btn-add-bottom" onclick="appendCell('text')">
+        ＋ テキストセルを追加
+      </button>
+    </div>
+  </main>
+
+  <!-- ===== スクリプト ===== -->
+  <!-- CodeMirror -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+
+  <!-- Marked.js (Markdown変換) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+
+  <!-- Pyodide (ブラウザ内Python実行エンジン) -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js"></script>
+
+  <!-- アプリ本体 -->
+  <script src="js/app.js"></script>
+
+</body>
+</html>
