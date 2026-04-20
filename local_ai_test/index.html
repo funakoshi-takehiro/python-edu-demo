@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI学習アシスタント</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,72 +18,75 @@
         <div class="hero-icon">🎓</div>
         <h1>AI学習アシスタント</h1>
         <p class="hero-sub">
-          あなたの端末だけで動作します<br>
           <span class="tag">🔒 データ送信なし</span>
           <span class="tag">☁️ クラウド不要</span>
-          <span class="tag">📶 初回のみWi-Fi推奨</span>
+          <span class="tag">📱 端末上で動作</span>
         </p>
       </div>
 
-      <h2 class="section-title">AIモデルを選択してください</h2>
+      <p class="section-title">モデルを選択</p>
       <div id="model-grid" class="model-grid"></div>
 
       <button id="btn-start" class="btn btn-primary" disabled>
-        このモデルで起動する →
+        起動する →
       </button>
       <p class="hint-text">
-        ※ 初回はモデルのダウンロードが必要です（100MB〜2GB）<br>
-        2回目以降はブラウザキャッシュから即座に起動します
+        初回のみモデルのダウンロードが必要です（100MB〜2GB）<br>
+        2回目以降はキャッシュから即座に起動します
       </p>
     </div>
   </section>
 
   <!-- ② 読み込み中 -->
   <section id="screen-load" class="screen">
-    <div class="container">
+    <div class="container" style="display:flex;align-items:center;justify-content:center;min-height:100dvh;">
       <div class="load-box">
         <div class="spinner"></div>
         <h2 id="load-title">モデルを準備しています...</h2>
         <p id="load-file" class="load-filename"></p>
         <div class="progress-track">
-          <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+          <div id="progress-fill" class="progress-fill" style="width:0%"></div>
         </div>
         <p id="progress-label" class="progress-label">0%</p>
-        <p class="load-note">初回のみダウンロードが発生します。次回以降はすぐに起動します。</p>
+        <p class="load-note">初回のみダウンロードが発生します<br>次回以降はすぐに起動します</p>
       </div>
     </div>
   </section>
 
   <!-- ③ チャット -->
   <section id="screen-chat" class="screen">
+
     <header class="chat-header">
       <button id="btn-back" class="btn-icon" title="モデル選択に戻る">←</button>
       <div class="header-info">
         <strong id="header-model-name"></strong>
         <span id="header-badge" class="badge"></span>
       </div>
-      <button id="btn-export" class="btn btn-outline">📄 保存</button>
+      <button id="btn-export" class="btn btn-outline">保存</button>
     </header>
 
-    <main id="messages" class="messages" role="log" aria-live="polite">
-      <!-- メッセージがここに追加される -->
-    </main>
+    <main id="messages" class="messages" role="log" aria-live="polite"></main>
 
     <footer class="chat-footer">
+      <div class="gen-status">
+        <div class="gen-bars">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        生成中
+      </div>
       <div class="input-row">
         <textarea
           id="input-box"
           class="input-box"
-          placeholder="質問を入力してください（Enter で送信 / Shift+Enter で改行）"
+          placeholder="質問を入力（Enter 送信 / Shift+Enter 改行）"
           rows="1"
-          aria-label="チャット入力欄"
+          aria-label="チャット入力"
         ></textarea>
         <button id="btn-send" class="btn-send" disabled aria-label="送信">▶</button>
       </div>
-      <p class="disclaimer">
-        AIの回答は参考情報です。重要な判断は先生や信頼できる資料で必ず確認してください。
-      </p>
+      <p class="disclaimer">AIの回答は参考情報です。重要な判断は必ず先生や信頼できる資料で確認してください。</p>
     </footer>
+
   </section>
 
   <script type="module" src="app.js"></script>

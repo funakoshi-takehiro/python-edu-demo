@@ -196,41 +196,37 @@ function initChat(model) {
   $('btn-send').disabled  = false;
 
   const langNote = model.badge.cls === 'badge-orange'
-    ? '\n\n⚠️ このモデルは英語専用です。英語（English）で質問してください。'
+    ? '\n\nこのモデルは英語専用です。英語（English）で質問してください。'
     : '';
   appendMessage('ai',
-    `こんにちは！ **${model.name}** を使って学習をサポートします。\n` +
-    `分からないことがあれば、何でも聞いてみてください。${langNote}`
+    `${model.name} で学習をサポートします。\n分からないことがあれば何でも聞いてみてください。${langNote}`
   );
 }
 
-// ── メッセージ表示 ─────────────────────────────────────────────────────────
+// ── メッセージ表示（シンプルテキスト） ────────────────────────────────────
 function appendMessage(role, content) {
   const wrap = document.createElement('div');
-  wrap.className = `message message-${role}`;
+  wrap.className = `msg msg-${role}`;
   wrap.innerHTML = `
-    <div class="bubble">
-      <span class="role-label">${role === 'user' ? '生徒' : 'AI'}</span>
-      <div class="bubble-text">${renderContent(content)}</div>
-    </div>`;
+    <span class="msg-from">${role === 'user' ? 'You' : 'AI'}</span>
+    <div class="msg-body">${renderContent(content)}</div>`;
   $('messages').appendChild(wrap);
   $('messages').scrollTop = $('messages').scrollHeight;
   return wrap;
 }
 
 function updateBubbleText(msgEl, content, streaming = false) {
-  msgEl.querySelector('.bubble-text').innerHTML = renderContent(content);
+  msgEl.querySelector('.msg-body').innerHTML = renderContent(content);
   msgEl.classList.toggle('streaming', streaming);
   $('messages').scrollTop = $('messages').scrollHeight;
 }
 
+// プレーンテキストのみ（シンプル出力）
 function renderContent(text) {
   return text
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/`([^`]+)`/g, '<code>$1</code>')
     .replace(/\n/g, '<br>');
 }
 
@@ -246,6 +242,7 @@ async function sendMessage() {
   inputEl.style.height = 'auto';
   $('btn-send').disabled = true;
   isGenerating = true;
+  $('screen-chat').classList.add('generating');
 
   appendMessage('user', text);
   chatHistory.push({ role: 'user', content: text });
@@ -261,7 +258,7 @@ async function sendMessage() {
 
   try {
     const streamer = new TextStreamer(pipe.tokenizer, {
-      skip_prompt:        true,
+      skip_prompt:         true,
       skip_special_tokens: true,
       callback_function: token => {
         aiContent += token;
@@ -280,9 +277,10 @@ async function sendMessage() {
 
   } catch (err) {
     console.error(err);
-    updateBubbleText(aiEl, `⚠️ エラーが発生しました: ${err.message}`, false);
+    updateBubbleText(aiEl, `エラーが発生しました: ${err.message}`, false);
   } finally {
     isGenerating = false;
+    $('screen-chat').classList.remove('generating');
     $('btn-send').disabled = false;
     inputEl.focus();
   }
