@@ -35,12 +35,12 @@ Always match the student's language.`;
 // ── モデル一覧 ──────────────────────────────────────────────────────────────
 const MODELS = [
   {
-    id:          'smollm3',
-    name:        'SmolLM3-3B',
-    hfId:        'HuggingFaceTB/SmolLM3-3B-Instruct',
-    label:       '🌐 多言語対応（日本語 OK）',
-    description: '日本語・英語など多言語に対応。高品質な回答が得られます。',
-    sizeNote:    '約1.7GB（初回DL: Wi-Fi環境で約3〜5分）',
+    id:          'qwen25-1.5b',
+    name:        'Qwen2.5-1.5B',
+    hfId:        'onnx-community/Qwen2.5-1.5B-Instruct',
+    label:       '多言語対応（日本語 OK）',
+    description: '日本語・英語など多言語に対応。低スペックPCでも動作します。',
+    sizeNote:    '約900MB（初回DL: Wi-Fi環境で約2〜4分）',
     badge:       { text: '日本語OK', cls: 'badge-green' },
     dtype:       'q4',
     device:      'auto',
@@ -50,7 +50,7 @@ const MODELS = [
     id:          'bonsai17b',
     name:        'Bonsai-1.7B',
     hfId:        'onnx-community/Bonsai-1.7B-ONNX',
-    label:       '🧠 賢さ重視',
+    label:       '賢さ重視（GPU必須）',
     description: '1-bit量子化モデルで高品質な推論が得意。WebGPU(GPU)が必要。',
     sizeNote:    '約290MB（初回DL: 約1〜2分）※WebGPU初期化に数分かかる場合あり',
     badge:       { text: '英語のみ', cls: 'badge-orange' },
@@ -62,7 +62,7 @@ const MODELS = [
     id:          'smollm2-360m',
     name:        'SmolLM2-360M',
     hfId:        'HuggingFaceTB/SmolLM2-360M-Instruct',
-    label:       '⚡ バランス型',
+    label:       'バランス型',
     description: '速度と品質のバランスが良く、ほぼ全ての端末で動作します。',
     sizeNote:    '約200MB（初回DL: 約1分）',
     badge:       { text: '英語のみ', cls: 'badge-orange' },
@@ -74,7 +74,7 @@ const MODELS = [
     id:          'smollm2-135m',
     name:        'SmolLM2-135M',
     hfId:        'HuggingFaceTB/SmolLM2-135M-Instruct',
-    label:       '🚀 最軽量',
+    label:       '最軽量',
     description: '最も軽量で高速。古い低スペックPCや実験・デモ向け。',
     sizeNote:    '約100MB（初回DL: 約30秒）',
     badge:       { text: '英語のみ', cls: 'badge-orange' },
@@ -323,7 +323,7 @@ function downloadAsWord() {
       </style>
     </head>
     <body>
-      <h1>🎓 AI学習アシスタント — 会話履歴</h1>
+      <h1>AI学習アシスタント — 会話履歴</h1>
       <p class="meta">記録日: ${date}　／　モデル: ${modelName}</p>
       <table>${rows}</table>
     </body>
