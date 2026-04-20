@@ -49,14 +49,14 @@ const MODELS = [
   {
     id:          'bonsai17b',
     name:        'Bonsai-1.7B',
-    hfId:        'onnx-community/bonsai-1.7b-onnx',
+    hfId:        'onnx-community/Bonsai-1.7B-ONNX',
     label:       '🧠 賢さ重視',
-    description: '1-bitモデルで賢い推論が得意。GPUがあればより快適に動作。',
-    sizeNote:    '約240MB（初回DL: 約1〜2分）',
+    description: '1-bit量子化モデルで高品質な推論が得意。WebGPU(GPU)が必要。',
+    sizeNote:    '約290MB（初回DL: 約1〜2分）※WebGPU初期化に数分かかる場合あり',
     badge:       { text: '英語のみ', cls: 'badge-orange' },
-    dtype:       'fp16',
+    dtype:       'q1',
     device:      'webgpu',
-    warning:     'WebGPU（GPU）が必要です。GPUなしのPCでは起動しない場合があります。',
+    warning:     'WebGPU（GPU）が必要です。GPUなしのPCでは起動しません。',
   },
   {
     id:          'smollm2-360m',
@@ -67,7 +67,7 @@ const MODELS = [
     sizeNote:    '約200MB（初回DL: 約1分）',
     badge:       { text: '英語のみ', cls: 'badge-orange' },
     dtype:       'q4',
-    device:      'wasm',
+    device:      'auto',
     warning:     null,
   },
   {
@@ -79,7 +79,7 @@ const MODELS = [
     sizeNote:    '約100MB（初回DL: 約30秒）',
     badge:       { text: '英語のみ', cls: 'badge-orange' },
     dtype:       'q4',
-    device:      'wasm',
+    device:      'auto',
     warning:     null,
   },
 ];
@@ -156,6 +156,13 @@ async function loadModel(model) {
           $('progress-fill').style.width = `${pct}%`;
           $('progress-label').textContent = `${pct}%`;
           $('load-file').textContent = file ?? '';
+        } else if (status === 'done') {
+          $('progress-fill').style.width = '99%';
+          if (model.device === 'webgpu') {
+            $('load-title').textContent = 'WebGPU シェーダーを初期化中...';
+            $('load-file').textContent = '初回のみ数分かかる場合があります。このまましばらくお待ちください。';
+            $('progress-label').textContent = 'コンパイル中...';
+          }
         } else if (status === 'ready') {
           $('progress-fill').style.width = '100%';
           $('progress-label').textContent = '起動完了！';
